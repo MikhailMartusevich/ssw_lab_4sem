@@ -1,36 +1,60 @@
+#ifndef STRUCTS
+#define STRUCTS
+
 #include <iostream>
 using namespace std;
 
 class Abs // base class
 {
 public:
-	Abs(short isize);
+	Abs() //default constructor
+	{
+		size = 0;
+		arr = new short[size];
+	}
+	explicit Abs(short isize); // param constructor
 	~Abs();
+
 	void Out();
 	void Fill();
-	short Peek();
+	void Push(short value);
+	virtual void Pop();
+	virtual short Peek();
+
 	short Count();
 	void Negative();
 	void Range(short left, short right);
-	friend bool operator< (const Abs& a, const Abs& b); // friend functions
-	friend bool operator> (const Abs& a, const Abs& b);
-	friend bool operator== (const Abs& a, const Abs& b);
-	friend bool operator!= (const Abs& a, const Abs& b);
+
+	bool operator<(const Abs& b); // comparison functions
+	bool operator>(const Abs& b);
+	bool operator==(const Abs& b);
+	bool operator!=(const Abs& b);
+	bool operator<=(const Abs& b);
+	bool operator>=(const Abs& b);
+
 protected:
-	short size = 0; // array size
+	size_t size {0}; // array size
 	short* arr; // array
 };
 
-Abs::Abs(short isize) // base class constructor 
+Abs::Abs(short isize) 
 {
-	size = isize;
-	arr = new short[size];
+	try
+	{
+		size = isize;
+		arr = new short[size];
+	}
+	catch (const std::exception& exp)
+	{
+		cout << exp.what();
+	}
 }
 
 Abs::~Abs() //destructor
 {
 	delete[] arr;
 }
+
 void Abs::Fill()
 {
 	
@@ -40,6 +64,7 @@ void Abs::Fill()
 		//arr[i] = rand() % 10;
 	}
 }
+
 void Abs::Out()
 {
 	for (int i = 0; i < size; i++)
@@ -48,19 +73,53 @@ void Abs::Out()
 	}
 	cout << endl;
 }
+
+void Abs::Push(short value)
+{
+	auto* newArray = new short[size + 1];
+	for (int i = 0; i < size; i++)
+	{
+		newArray[i] = arr[i];
+	}
+	newArray[size] = value;
+	size++;
+	delete[] arr;
+	arr = newArray;
+}
+
+void Abs::Pop()
+{
+	try
+	{
+		size--;
+		short* newArray = new short[size];
+		for (int i = 0; i < size; i++)
+		{
+			newArray[i] = arr[i];
+		}
+		delete[] arr;
+		arr = newArray;
+	}
+	catch (const std::exception & exp)
+	{
+		cout << exp.what();
+	}
+}
+
 short Abs::Peek()
 {
 	return arr[size - 1];
 }
+
 short Abs::Count()
 {
 	return size;
 }
+
 void Abs::Negative() // erase negative nums
 {
 	int NegativeCount = 0;
 	int k = 0;
-	int z = 0;
 	for (int i = 0; i < size; i++)
 	{
 		if (arr[i] < 0)
@@ -69,7 +128,7 @@ void Abs::Negative() // erase negative nums
 		}
 	}
 	size -= NegativeCount;
-	short* newArray = new short[size];
+	auto* newArray = new short[size];
 	for (int i = 0; i < size; i++)
 	{
 		if (arr[i + k] < 0)
@@ -83,6 +142,7 @@ void Abs::Negative() // erase negative nums
 	delete[] arr;
 	arr = newArray;
 }
+
 void Abs::Range(short left, short right) // erase nums in defined range
 {
 	int RangeCount = 0;
@@ -95,7 +155,7 @@ void Abs::Range(short left, short right) // erase nums in defined range
 		}
 	}
 	size -= RangeCount;
-	short* newArray = new short[size];
+	auto* newArray = new short[size];
 	for (int i = 0; i < size; i++)
 	{
 		if ((arr[i + k] >= left) & (arr[i + k] <= right))
@@ -111,194 +171,111 @@ void Abs::Range(short left, short right) // erase nums in defined range
 	arr = newArray;
 }
 
-bool operator<(const Abs& a, const Abs& b)
+
+bool Abs::operator<(const Abs& b)
 {
-	bool res = false;
-	if (a.size <= b.size)
-	{
-		for (int i = 0; i < a.size; i++)
-		{
-			if (a.arr[i] > b.arr[i]) res = false;
-			else res = true;
-		}
-	}
-	else
-	{
+	if (size > b.size)
 		for (int i = 0; i < b.size; i++)
-		{
-			if (a.arr[i] > b.arr[i]) res = false;
-			else res = true;
-		}
-	}
-	return res;
+			return arr < b.arr;
+	else
+		for (int i = 0; i < size; i++)
+			return arr < b.arr;
 }
-bool operator> (const Abs& a, const Abs& b)
+
+bool Abs::operator>(const Abs& b)
 {
-	bool res = false;
-	if (a.size <= b.size)
-	{
-		for (int i = 0; i < a.size; i++)
-		{
-			if (a.arr[i] > b.arr[i]) res = true;
-			else res = false;
-		}
-	}
-	else
-	{
+	if (size > b.size)
 		for (int i = 0; i < b.size; i++)
-		{
-			if (a.arr[i] > b.arr[i]) res = true;
-			else res = false;
-		}
-	}
-	return res;
+			return arr > b.arr;
+	else
+		for (int i = 0; i < size; i++)
+			return arr > b.arr;
 }
-bool operator== (const Abs& a, const Abs& b)
+
+bool Abs::operator==(const Abs& b)
 {
-	bool res = false;
-	if (a.size <= b.size)
-	{
-		for (int i = 0; i < a.size; i++)
-		{
-			if (a.arr[i] == b.arr[i]) res = true;
-			else res = false;
-		}
-	}
+	if (size != b.size)
+		return false;
 	else
-	{
-		for (int i = 0; i < b.size; i++)
-		{
-			if (a.arr[i] == b.arr[i]) res = true;
-			else res = false;
-		}
-	}
-	return res;
+		for (int i = 0; i < size; i++)
+			return arr[i] == b.arr[i];
 }
-bool operator!= (const Abs& a, const Abs& b)
+
+bool Abs::operator!=(const Abs& b)
 {
-	bool res = false;
-	if (a.size <= b.size)
-	{
-		for (int i = 0; i < a.size; i++)
-		{
-			if (a.arr[i] == b.arr[i]) res = false;
-			else res = true;
-		}
-	}
+	if (size != b.size)
+		return true;
 	else
-	{
+		for (int i = 0; i < size; i++)
+			return arr[i] != b.arr[i];
+}
+
+bool Abs::operator<=(const Abs& b)
+{
+	if (size > b.size)
 		for (int i = 0; i < b.size; i++)
-		{
-			if (a.arr[i] == b.arr[i]) res = false;
-			else res = true;
-		}
-	}
-	return res;
+			return arr <= b.arr;
+	else
+		for (int i = 0; i < size; i++)
+			return arr <= b.arr;
+}
+
+bool Abs::operator>=(const Abs& b)
+{
+	if (size > b.size)
+		for (int i = 0; i < b.size; i++)
+			return arr >= b.arr;
+	else
+		for (int i = 0; i < size; i++)
+			return arr >= b.arr;
 }
 
 class Stack : public Abs
 {
 public:
-	Stack(short isize) : Abs(isize)
+	Stack() : Abs()
 	{}
-	void StackPop();
-	void StackPush(short value);
+	explicit Stack(short isize) : Abs(isize)
+	{}
 };
-void Stack::StackPush(short value)
-{
-	short* newArray = new short[size + 1];
-	for (int i = 0; i < size; i++)
-	{
-		newArray[i] = arr[i];
-	}
-	newArray[size] = value;
-	size++;
-	delete[] arr;
-	arr = newArray;
-}
-void Stack::StackPop()
-{
-	size--;
-	short* newArray = new short[size];
-	for (int i = 0; i < size; i++)
-	{
-		newArray[i] = arr[i];
-	}
-	delete[] arr;
-	arr = newArray;
-}
 
 class Queue : public Abs
 {
 public:
-	Queue(short isize) : Abs(isize)
+	Queue() : Abs()
 	{}
-	void QueuePush(short value);
-	void QueuePop();
-	short QueuePeek();
+	explicit Queue(short isize) : Abs(isize)
+	{}
+	void Pop() override
+	{
+		size--;
+		auto* newArray = new short[size];
+		for (int i = 0; i < size; i++)
+		{
+			newArray[i] = arr[i + 1];
+		}
+		delete[] arr;
+		arr = newArray;
+	}
+	short Peek() override
+	{
+		return arr[0];
+	}
 };
-void Queue::QueuePush(short value)
-{
-	short* newArray = new short[size + 1];
-	for (int i = 0; i < size; i++)
-	{
-		newArray[i] = arr[i];
-	}
-	newArray[size] = value;
-	size++;
-	delete[] arr;
-	arr = newArray;
-}
-void Queue::QueuePop()
-{
-	size--;
-	short* newArray = new short[size];
-	for (int i = 0; i < size; i++)
-	{
-		newArray[i] = arr[i + 1];
-	}
-	delete[] arr;
-	arr = newArray;
-}
-short Queue::QueuePeek()
-{
-	return arr[0];
-}
+
 class Vector : public Abs
 {
 public:
-	Vector(short isize) : Abs(isize)
+	Vector() : Abs()
 	{}
-	void VectorPush(short value);
-	void VectorPop();
-	short & VectorAt(short value);
+	explicit Vector(short isize) : Abs(isize)
+	{}
+	short & At(short value);
 	
 };
-void Vector::VectorPush(short value)
-{
-	short* newArray = new short[size + 1];
-	for (int i = 0; i < size; i++)
-	{
-		newArray[i] = arr[i];
-	}
-	newArray[size] = value;
-	size++;
-	delete[] arr;
-	arr = newArray;
-}
-void Vector::VectorPop()
-{
-	size--;
-	short* newArray = new short[size];
-	for (int i = 0; i < size; i++)
-	{
-		newArray[i] = arr[i];
-	}
-	delete[] arr;
-	arr = newArray;
-}
-short & Vector::VectorAt(short value)
+
+short & Vector::At(short value)
 {
 	return arr[value];
 }
- 
+#endif // !STRUCTS 
