@@ -7,27 +7,6 @@
 
 int main()
 {
-	try
-	{
-		Stack a;
-		Stack b;
-
-		for (size_t i = 0; i < 5; i++)
-		{
-			a.Push(i);
-			b.Push(i);
-		}
-		bool result = false;
-		result = a == b;
-		cout << "\n res= " << result;
-
-	}
-	catch (const std::exception& ex)
-	{
-		cout << ex.what();
-	}
-	
-	/*
 	try {
 
 		using ns = std::chrono::nanoseconds;
@@ -138,6 +117,8 @@ int main()
 		res = std::chrono::duration_cast<ns>(end - start).count();
 		cout << res << "\t\t";
 
+		queue1.Push(55);
+
 		start = std::chrono::high_resolution_clock::now();
 		queue1.Peek();
 		end = std::chrono::high_resolution_clock::now();
@@ -208,13 +189,15 @@ int main()
 		res = std::chrono::duration_cast<ns>(end - start).count();
 		cout << res << "\t\t";
 
+		vector1.Push(21);
+
 		start = std::chrono::high_resolution_clock::now();
 		vector1.Peek();
 		end = std::chrono::high_resolution_clock::now();
 		res = std::chrono::duration_cast<ns>(end - start).count();
 		cout << res << "\t\t";
 
-		vector1.Push(22);
+		
 
 		start = std::chrono::high_resolution_clock::now();
 		vector1.Count();
@@ -269,6 +252,6 @@ int main()
 	catch (const std::exception & exp) 
 	{
 		cout << exp.what() << endl;
-	}*/
+	}
 	return 0;
 }
