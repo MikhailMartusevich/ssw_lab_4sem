@@ -7,6 +7,27 @@
 
 int main()
 {
+	try
+	{
+		Stack a;
+		Stack b;
+
+		for (size_t i = 0; i < 5; i++)
+		{
+			a.Push(i);
+			b.Push(i);
+		}
+		bool result = false;
+		result = a == b;
+		cout << "\n res= " << result;
+
+	}
+	catch (const std::exception& ex)
+	{
+		cout << ex.what();
+	}
+	
+	/*
 	try {
 
 		using ns = std::chrono::nanoseconds;
@@ -248,6 +269,6 @@ int main()
 	catch (const std::exception & exp) 
 	{
 		cout << exp.what() << endl;
-	}
+	}*/
 	return 0;
 }
