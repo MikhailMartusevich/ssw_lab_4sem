@@ -21,7 +21,7 @@ public:
 	virtual void Pop();
 	virtual short Peek();
 
-	short Count();
+	size_t Count();
 	void Negative();
 	void Range(short left, short right);
 
@@ -110,7 +110,7 @@ short Abs::Peek()
 {
 	if (size > 0)
 	{
-		return arr[size - 1];
+		return arr[size -1];
 	}
 	else
 	{
@@ -118,7 +118,7 @@ short Abs::Peek()
 	}
 }
 
-short Abs::Count()
+size_t Abs::Count()
 {
 	return size;
 }
@@ -181,10 +181,23 @@ void Abs::Range(short left, short right) // erase nums in defined range
 
 bool Abs::operator<(const Abs& b)
 {
-	if (size >= b.size)
+	if (size > b.size)
 	{
 		size_t it = 0;
 
+		do
+		{
+			if (arr[it] < b.arr[it]) return true;
+
+			else if (arr[it] > b.arr[it]) return false;
+
+			it++;
+
+		} while ((it < b.size) && (arr[it] == b.arr[it]));
+	}
+	else if (size <= b.size)
+	{
+		size_t it = 0;
 		do
 		{
 			if (arr[it] < b.arr[it]) return true;
@@ -195,19 +208,6 @@ bool Abs::operator<(const Abs& b)
 
 		} while ((it < b.size) && (arr[it] == b.arr[it]));
 		if (size < b.size) return true;
-	}
-	if (size < b.size)
-	{
-		size_t it = 0;
-		do
-		{
-			if (arr[it] < b.arr[it]) return true;
-
-			if (arr[it] > b.arr[it]) return false;
-
-			it++;
-
-		} while ((it < size) && (arr[it] == b.arr[it]));
 	}
 	return false;
 }
@@ -222,21 +222,21 @@ bool Abs::operator>(const Abs& b)
 		{
 			if (arr[it] < b.arr[it]) return false;
 
-			if (arr[it] > b.arr[it]) return true;
+			else if (arr[it] > b.arr[it]) return true;
 
 			it++;
 
 		} while ((it < b.size) && (arr[it] == b.arr[it]));
 		if (size > b.size) return true;
 	}
-	if (size < b.size)
+	else if (size < b.size)
 	{
 		size_t it = 0;
 		do
 		{
 			if (arr[it] < b.arr[it]) return false;
 
-			if (arr[it] > b.arr[it]) return true;
+			else if (arr[it] > b.arr[it]) return true;
 
 			it++;
 
@@ -251,7 +251,7 @@ bool Abs::operator==(const Abs& b)
 		size_t it = 0;
 		do
 		{
-			if (size != b.size) return false;
+			if (arr[it] != b.arr[it]) return false;
 			it++;
 
 		} while ((it < size) && (arr[it] == b.arr[it]));
@@ -262,91 +262,24 @@ bool Abs::operator==(const Abs& b)
 
 bool Abs::operator!=(const Abs& b)
 {
-	if (size == b.size)
-	{
-		size_t it = 0;
-		do
-		{
-			if (size == b.size) return false;
-			it++;
-
-		} while ((it < size) && (arr[it] != b.arr[it]));
-		return true;
-	}
-	else return true;
+	return !(*this == b);
 }
 
 bool Abs::operator<=(const Abs& b)
 {
-	if (size <= b.size)
-	{
-		size_t it = 0;
-
-		do
-		{
-			if (arr[it] <= b.arr[it]) return true;
-
-			if (arr[it] > b.arr[it]) return false;
-
-			it++;
-
-		} while ((it < b.size) && (arr[it] == b.arr[it]));
-		if (size > b.size) return false;
-	}
-	if (size < b.size)
-	{
-		size_t it = 0;
-		do
-		{
-			if (arr[it] <= b.arr[it]) return true;
-
-			if (arr[it] > b.arr[it]) return false;
-
-			it++;
-
-		} while ((it < size) && (arr[it] == b.arr[it]));
-	}
-	return false;
+	return !(*this > b);
 }
 
 bool Abs::operator>=(const Abs& b)
 {
-	if (size >= b.size)
-	{
-		size_t it = 0;
-
-		do
-		{
-			if (arr[it] < b.arr[it]) return false;
-
-			if (arr[it] >= b.arr[it]) return true;
-
-			it++;
-
-		} while ((it < b.size) && (arr[it] == b.arr[it]));
-		if (size >= b.size) return true;
-	}
-	if (size < b.size)
-	{
-		size_t it = 0;
-		do
-		{
-			if (arr[it] < b.arr[it]) return false;
-
-			if (arr[it] >= b.arr[it]) return true;
-
-			it++;
-
-		} while ((it < size) && (arr[it] == b.arr[it]));
-	}
-	return false;
+	return !(*this < b);
 }
 
 class Stack : public Abs
 {
 public:
-	Stack() : Abs()
-	{}
+	Stack() = default;
+	~Stack() = default;
 	explicit Stack(short isize) : Abs(isize)
 	{}
 };
@@ -354,8 +287,8 @@ public:
 class Queue : public Abs
 {
 public:
-	Queue() : Abs()
-	{}
+	Queue() = default;
+	~Queue() = default;
 	explicit Queue(short isize) : Abs(isize)
 	{}
 	void Pop() override
@@ -393,15 +326,15 @@ public:
 class Vector : public Abs
 {
 public:
-	Vector() : Abs()
-	{}
+	Vector() = default;
+	~Vector() = default;
 	explicit Vector(short isize) : Abs(isize)
 	{}
-	short & At(short value);
+	short & At(size_t value);
 	
 };
 
-short & Vector::At(short value)
+short & Vector::At(size_t value)
 {
 	if ((value < 0) && (value >= size))
 	{
