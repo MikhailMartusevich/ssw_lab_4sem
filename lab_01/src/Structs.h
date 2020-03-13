@@ -193,7 +193,7 @@ bool Abs::operator<(const Abs& b)
 
 			it++;
 
-		} while ((it < b.size) && (arr[it] == b.arr[it]));
+		} while (it < b.size);
 	}
 	else if (size <= b.size)
 	{
@@ -206,7 +206,7 @@ bool Abs::operator<(const Abs& b)
 
 			it++;
 
-		} while ((it < b.size) && (arr[it] == b.arr[it]));
+		} while (it < size);
 		if (size < b.size) return true;
 	}
 	return false;
@@ -226,7 +226,7 @@ bool Abs::operator>(const Abs& b)
 
 			it++;
 
-		} while ((it < b.size) && (arr[it] == b.arr[it]));
+		} while (it < b.size);
 		if (size > b.size) return true;
 	}
 	else if (size < b.size)
@@ -240,7 +240,7 @@ bool Abs::operator>(const Abs& b)
 
 			it++;
 
-		} while ((it < size) && (arr[it] == b.arr[it]));
+		} while (it < size);
 	}
 	return false;
 }
@@ -254,7 +254,7 @@ bool Abs::operator==(const Abs& b)
 			if (arr[it] != b.arr[it]) return false;
 			it++;
 
-		} while ((it < size) && (arr[it] == b.arr[it]));
+		} while (it < size);
 		return true;
 	}
 	else return false;
