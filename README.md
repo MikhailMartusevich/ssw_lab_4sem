@@ -5,6 +5,13 @@ Set of laboratory tasks for course of system software (4 semester)
 
 Implementation of stack (LIFO)/queue(FIFO)/vector.  
 
+## lab_02
+
+Implementation of single/double linked list, circular buffer.  
+
+## lab_03  
+
+Implementation of general tree and binary search tree.    
 
 
 What we will be do:
@@ -12,8 +19,6 @@ What we will be do:
 - build different structures of data;
 - compare our realization with STL;
 - ~~may be something also?~~
-
-
 
 ## How work with this repository
 
@@ -24,6 +29,7 @@ To work with *git* you should to use [Github client](https://desktop.github.com/
 - `git clone`
 - `git add`
 - `git commit -m`
+- `git checkout`
 - `git merge`
 - `git pull`
 - `git push`
@@ -43,9 +49,11 @@ To work with *git* you should to use [Github client](https://desktop.github.com/
 
 - [Git Update fork](https://help.github.com/en/articles/syncing-a-fork)
 
-- [How to update your fork](https://stackoverflow.com/questions/20984802/how-can-i-keep-my-fork-in-sync-without-adding-a-separate-remote/21131381#21131381)
-
 - [Google Code Style Guide](https://google.github.io/styleguide/cppguide.html)
+
+- [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
+
+- [C++ FAQ](https://isocpp.org/faq)
 
 - [Multi language online documentation](https://docs.w3cub.com/cpp/)
 
@@ -59,11 +67,15 @@ To work with *git* you should to use [Github client](https://desktop.github.com/
 
 - [CMake](https://cmake.org/download/)
 
-  
+- [Online BST constructor](https://www.cs.usfca.edu/~galles/visualization/BST.html)
+
+
 
 ## Issues
 
+- [How to update your fork](https://stackoverflow.com/questions/20984802/how-can-i-keep-my-fork-in-sync-without-adding-a-separate-remote/21131381#21131381)
 - [How to setup Git in CLion](https://stackoverflow.com/questions/35087523/git-exe-error-while-loading-shared-libraries-cannot-open-shared-object-file)
+- [How to generate Visual Studio project files via CMake](https://preshing.com/20170511/how-to-build-a-cmake-based-project/)
 - [How to make friends our CMake with Visual Studio](https://www.youtube.com/watch?v=gYmgbqGfv-8)
 - [How to make friends CMake and Visual Studio[2]](https://docs.microsoft.com/ru-ru/cpp/build/cmake-projects-in-visual-studio?view=vs-2019)
-
+- [How to import CMake project in Qt Creator](https://codeyarns.com/2016/01/26/how-to-import-cmake-project-in-qt-creator/)
